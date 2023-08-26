@@ -46,7 +46,10 @@ def print_table(headers, iterable):
 
 	for row in iterable:
 		for idx in row:
-			table.add_row([value for value in row[idx].values()])
+			data = [value for value in row[idx].values()]
+			data.insert(0, idx)
+
+			table.add_row(data)
 
 	print(table)
 

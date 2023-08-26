@@ -2,7 +2,7 @@ import sys
 import json
 
 from core.helpers import prompt, print_table
-from core.datas import AddData
+from core.datas import AddData, ChangeData
 from core.db_connection import DB
 
 
@@ -12,6 +12,7 @@ class Menu:
         self.actions = {
             '1': (self._get_data, 'Смотреть записи'),
             '2': (self._add_data, 'Добавить запись'),
+            '3': (self._change_data, 'Изменить запись'),
             'm': (self.ac_menu, 'Показать меню'),
             'q': (sys.exit, 'Закрыть программу'),
         }
@@ -22,7 +23,8 @@ class Menu:
         action, begin, end = '', 0, 3
         while action.lower() != 'q':
             print_table(
-                {
+                {   
+                    "id": "N",
                     "surname": "Фамилия", 
                     "name": "Имя", 
                     "lastname": "Отчетсво", 
@@ -33,7 +35,7 @@ class Menu:
                 data[begin:end]
             )
             action = prompt('Вперед - n, назад - p, выйти - q')
-            
+
             if action.lower() == 'n':
                 begin = end
                 end += 3
@@ -55,6 +57,17 @@ class Menu:
             phone=prompt('Введите личный нмоер телефона'),
         )()
         self.db.add(data=data)
+
+    def _change_data(self):
+        idx = prompt('Введите номер записи для изменения')
+        data = self.db.get()
+
+        for i, el in enumerate(data, 1):
+            if str(i) == idx:
+                new_data = ChangeData(data[i-1].get(idx))()
+        
+        data[int(idx)-1][idx] = new_data
+        self.db.change(new_data=data)
     
     def ac_menu(self):
         for num, action in self.actions.items():

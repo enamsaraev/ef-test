@@ -3,6 +3,8 @@ import json
 from dataclasses import dataclass, asdict
 from typing import Any
 
+from core.helpers import prompt
+
 
 @dataclass
 class AddData:
@@ -16,3 +18,23 @@ class AddData:
 
     def __call__(self, *args: Any, **kwds: Any) -> dict:
         return {k: v for k, v in asdict(self).items()}
+    
+
+@dataclass
+class ChangeData:
+    data: dict
+
+    def __call__(self, *args: Any, **kwds: Any) -> dict:
+        return self._input()
+
+    def _input(self) -> dict:
+        new_data = {}
+
+        new_data['surname'] = prompt('Введите фамилию', default=self.data.get('surname', ''))
+        new_data['name'] = prompt('Введите имя', default=self.data.get('name', ''))
+        new_data['lastname'] = prompt('Введите отчество', default=self.data.get('lastname', ''))
+        new_data['company_name'] = prompt('Введите наиманование организации', default=self.data.get('company_name', ''))
+        new_data['work_phone'] = prompt('Введите рабочий номер телефона', default=self.data.get('work_phone', ''))
+        new_data['phone'] = prompt('Введите личный нмоер телефона', default=self.data.get('phone', ''))
+
+        return new_data
