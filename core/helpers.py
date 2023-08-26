@@ -1,5 +1,7 @@
 from datetime import datetime
 
+from prettytable import PrettyTable
+
 
 def prompt(msg, default=None, type_cast=None):
 	while True:
@@ -39,14 +41,12 @@ def input_date(msg='Введите дату', default=None, fmt='%Y-%m-%d'):
 
 
 def print_table(headers, iterable):
-    """Распечатывает таблицу на экран."""
-    print(' | '.join(headers.values()))
-    
-    for row in iterable:
-        data = []
+	table = PrettyTable()
+	table.field_names = headers.values()
 
-        for col_name in headers:
-            data.append(row[col_name])
+	for row in iterable:
+		for idx in row:
+			table.add_row([value for value in row[idx].values()])
 
-        
-        print(' | '.join(map(str, data)))
+	print(table)
+
