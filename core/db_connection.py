@@ -34,6 +34,19 @@ class DB:
         data['data'] = new_data
         self._add_into_file(data)
 
+    def search(self, search_data: dict):
+        search_data = {k:v for k, v in search_data.items() if v}
+        all_data = self.get()
+
+        data = []
+
+        for i, d in enumerate(all_data, 1):
+            for k, v in search_data.items():
+                if search_data[k] and d[str(i)][k].lower() == search_data[k].lower() and not all_data[i-1] in data:
+                    data.append(all_data[i-1])
+
+        return data
+
     def _add_into_file(self, new_data):
         with open('db.json', 'w') as f:
             json.dump(new_data, f)

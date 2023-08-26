@@ -38,3 +38,22 @@ class ChangeData:
         new_data['phone'] = prompt('Введите личный нмоер телефона', default=self.data.get('phone', ''))
 
         return new_data
+    
+
+@dataclass
+class SearchData:
+
+    def __call__(self, *args: Any, **kwds: Any) -> dict:
+        return self._search_data()
+
+    def _search_data(self) -> dict:
+        new_data = {}
+
+        new_data['surname'] = prompt('Введите фамилию')
+        new_data['name'] = prompt('Введите имя')
+        new_data['lastname'] = prompt('Введите отчество')
+        new_data['company_name'] = prompt('Введите наиманование организации')
+        new_data['work_phone'] = prompt('Введите рабочий номер телефона')
+        new_data['phone'] = prompt('Введите личный нмоер телефона')
+
+        return new_data

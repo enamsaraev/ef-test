@@ -2,7 +2,7 @@ import sys
 import json
 
 from core.helpers import prompt, print_table
-from core.datas import AddData, ChangeData
+from core.datas import AddData, ChangeData, SearchData
 from core.db_connection import DB
 
 
@@ -13,6 +13,7 @@ class Menu:
             '1': (self._get_data, 'Смотреть записи'),
             '2': (self._add_data, 'Добавить запись'),
             '3': (self._change_data, 'Изменить запись'),
+            '4': (self._search_data, 'Найти запись'),
             'm': (self.ac_menu, 'Показать меню'),
             'q': (sys.exit, 'Закрыть программу'),
         }
@@ -68,6 +69,25 @@ class Menu:
         
         data[int(idx)-1][idx] = new_data
         self.db.change(new_data=data)
+
+    def _search_data(self):
+        print('Введите данные по поиску')
+
+        search_data = SearchData()()
+        data = self.db.search(search_data)
+
+        print_table(
+            {   
+                "id": "N",
+                "surname": "Фамилия", 
+                "name": "Имя", 
+                "lastname": "Отчетсво", 
+                "company_name": "Имя компании", 
+                "work_phone": "Рабочий телефон", 
+                "phone": "Личный телефон"
+            },
+            data
+        )
     
     def ac_menu(self):
         for num, action in self.actions.items():
