@@ -1,4 +1,4 @@
-# REST API readme
+# README
 
 ## Install
 
