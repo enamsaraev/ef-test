@@ -18,9 +18,10 @@ class Menu:
             'q': (sys.exit, 'Закрыть программу'),
         }
 
-    def _get_data(self):
+    def _get_data(self) -> None:
+        """Show data in table page by page"""
         data = self.db.get()
-        
+
         action, begin, end = '', 0, 3
         while action.lower() != 'q':
             print_table(
@@ -44,22 +45,26 @@ class Menu:
                 end = begin
                 begin -= 3
 
-            if end > len(data)+1 or begin < 0:
+            if end > len(data)+2 or begin < 0:
                 begin = 0
                 end = 3
 
-    def _add_data(self):
+            print(begin, end)
+
+    def _add_data(self) -> None:
+        """Adding new data to db"""
         data = AddData(
             surname=prompt('Введите фамилию'),
             name=prompt('Введите имя'),
             lastname=prompt('Введите отчество'),
             company_name=prompt('Введите наиманование организации'),
             work_phone=prompt('Введите рабочий номер телефона'),
-            phone=prompt('Введите личный нмоер телефона'),
+            phone=prompt('Введите личный номер телефона'),
         )()
         self.db.add(data=data)
 
-    def _change_data(self):
+    def _change_data(self) -> None:
+        """Change data by its id"""
         idx = prompt('Введите номер записи для изменения')
         data = self.db.get()
 
@@ -70,7 +75,8 @@ class Menu:
         data[int(idx)-1][idx] = new_data
         self.db.change(new_data=data)
 
-    def _search_data(self):
+    def _search_data(self) -> None:
+        """Show data by search"""
         print('Введите данные по поиску')
 
         search_data = SearchData()()
@@ -89,15 +95,17 @@ class Menu:
             data
         )
     
-    def ac_menu(self):
+    def ac_menu(self) -> None:
+        """Show menu"""
         for num, action in self.actions.items():
             print(f'{num}. {action[1]}')
 
-    def get_actions(self):
+    def get_actions(self) -> dict:
+        """Return available menu actions"""
         return self.actions
 	
-    def show_usage(self):
-        """Показать, как исользовать"""
+    def show_usage(self) -> None:
+        """Show how to use app"""
 
         commads = ', '.join(self.actions.keys())
         print(f'\nНеизвестная команда.\nВведите одну из: {commads}')

@@ -3,7 +3,8 @@ from datetime import datetime
 from prettytable import PrettyTable
 
 
-def prompt(msg, default=None, type_cast=None):
+def prompt(msg, default: str = None, type_cast=None) -> str:
+	"""Saves user input"""
 	while True:
 
 		value = input(f'{msg}: ' )
@@ -20,27 +21,8 @@ def prompt(msg, default=None, type_cast=None):
 			print(err)
 
 
-def input_int(msg='Введите число', default=None):
-	"""Запрашивает целое число от пользователя и возвращает ввод"""
-	return prompt(msg, default, type_cast=int)
-
-
-
-def input_float(msg='Введите число', default=None):
-	"""Запрашивает дробное число от пользователя и возвращает ввод"""
-	return prompt(msg, default, type_cast=float)
-
-
-def input_date(msg='Введите дату', default=None, fmt='%Y-%m-%d'):
-	"""Запрашивает дату от пользователя и возвращает ввод"""	
-	return prompt(
-        msg,
-        default,
-        type_cast=lambda value: datetime.strptime(value, fmt).date()
-    )
-
-
-def print_table(headers, iterable):
+def print_table(headers: dict, iterable: list) -> None:
+	"""Printing data table"""
 	table = PrettyTable()
 	table.field_names = headers.values()
 

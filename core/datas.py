@@ -8,6 +8,7 @@ from core.helpers import prompt
 
 @dataclass
 class AddData:
+    """Saves data of a single note, returns its dict"""
     surname: str
     name: str
     lastname: str 
@@ -22,6 +23,7 @@ class AddData:
 
 @dataclass
 class ChangeData:
+    """Saves what data should be changed; only single note"""
     data: dict
 
     def __call__(self, *args: Any, **kwds: Any) -> dict:
@@ -42,7 +44,7 @@ class ChangeData:
 
 @dataclass
 class SearchData:
-
+    """Saves search data"""
     def __call__(self, *args: Any, **kwds: Any) -> dict:
         return self._search_data()
 
